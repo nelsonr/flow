@@ -39,6 +39,12 @@ pre {
   text-align: left;
 }
 
+.nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
 .node {
   display: flex;
   flex-wrap: nowrap;
@@ -55,6 +61,7 @@ pre {
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
   padding: 0.2em 0.5em;
+  font-weight: bold;
 }
 
 .node__body {
@@ -70,4 +77,18 @@ pre {
 
 .node__body hr {
   margin-inline: 1em;
+}
+
+.node__preview {
+  line-height: 1.2;
+}
+
+.node__preview+.node__preview {
+  padding-top: 0;
+}
+
+.node__title,
+.node__preview div {
+  font-size: 0.65em;
+  text-transform: uppercase;
 }

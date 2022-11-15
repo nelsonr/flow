@@ -40,10 +40,6 @@
                 "before": true
             }
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "newline-before-return": "error",
         "object-curly-newline": [
             "error",

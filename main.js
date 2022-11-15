@@ -10,15 +10,21 @@ function debounce (fn) {
     };
 }
 
-function evaluateNode (node, input = null) {
+function evaluateNode (code, input = null) {
     const inputStr = input !== null ? "const $input = arguments[0];" : "";
 
-    return new Function(inputStr + node.code)(input);
+    try {
+        return new Function(inputStr + code)(input);
+    } catch (error) {
+        console.log(error.message);
+        
+        return undefined;
+    }
 }
 
-function renderNode (node, input = null) {
-    const nodeValue = evaluateNode(node, input);
-    const elemId = "node-" + node.id.replace(".", "-");
+function renderNode (node, level, sublevel, input = null) {
+    const nodeValue = evaluateNode(node.code, input);
+    const elemId = `node-${level}-${sublevel}`;
 
     const inputHTML = `
     <div class="node__preview">
@@ -28,14 +34,14 @@ function renderNode (node, input = null) {
 
     const previewHTML = `
     <div class="node__preview">
-        <div>Result</div>
+        <div>Output</div>
         <code>${nodeValue}</code>
     </div>`;
-    
+
     return `
-    <div class="node" id="${elemId}">
+    <div class="node" id="${elemId}" data-id="${node.id}">
         <div class="node__content">
-            <div class="node__title">Node ${node.id}</div>
+            <div class="node__title">Node ${level}.${sublevel}</div>
             
             <div class="node__body">
                 <pre 
@@ -51,38 +57,69 @@ function renderNode (node, input = null) {
             </div>
         </div>
         
-        ${node.children ? renderTree(node.children, nodeValue) : ""}
+        ${node.children ? renderTree(node.children, level + 1, nodeValue) : ""}
     </div>`;
 }
 
-function renderTree (tree, input = null) {
-    const treeHTML = tree.map((node) => renderNode(node, input)).flat().join("");
+function renderTree (tree, level = 1, input = null) {
+    const treeHTML = tree.map((node, index) => renderNode(node, level, index, input)).flat().join("");
 
     return `<div class="nodes">${treeHTML}</div>`;
 }
 
-function onNodeChange (nodeId, newCode) {
-    console.log("Node changed:", nodeId, newCode);
+function updateNode (tree, nodeId, nodeCode) {
+    return tree.map((node) => {
+        if (node.id === nodeId) {
+            node.code = nodeCode;
+        } else if (node.children.length > 0) {
+            node.children = updateNode(node.children, nodeId, nodeCode);
+        }
+
+        return node;
+    });
+}
+    
+function onChange (tree, nodeId, newCode, input) {
+    const isValid = evaluateNode(newCode, input) !== undefined;
+
+    // Update tree only when the new code evaluates to a value
+    if (isValid) {
+        render(updateNode(tree, nodeId, newCode));
+    }
 }
 
-const tree = [ 
-    {
-        id: "1",
-        code: `function add(a, b) {
-    return a + b;
-}
+function render (tree) {
+    const rootTree = tree;
 
-return add(10, 20);`,
-        isChildren: false,
-        children: [
-            {
-                id: "1.1",
-                code: "return $input * 2;",
-                isChildren: true,
-                children: []
+    document.querySelector("#app").innerHTML = renderTree(tree);
+
+    const setupEvents = (tree, input = null) => {
+        tree.forEach((node) => {
+            const editor = document.querySelector(`[data-id="${node.id}"] pre`);
+
+            editor.addEventListener("input", debounce((ev) => {
+                onChange(rootTree, node.id, ev.target.textContent, input);
+            }));
+
+            if (node.children.length > 0) {
+                setupEvents(node.children, evaluateNode(node.code, input));
             }
-        ]
-    } 
-];
+        });
+    };
+    
+    setupEvents(tree);
+}
 
-document.querySelector("#app").innerHTML = renderTree(tree);
+const initialTree = [ {
+    id: crypto.randomUUID(),
+    code: "return [2, 4, 6];",
+    children: [
+        {
+            id: crypto.randomUUID(),
+            code: "return $input.map(n => n * n);",
+            children: []
+        },
+    ]
+} ];
+
+render(initialTree);
