@@ -1,12 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
+  --color-background: hsl(0, 0%, 14%);
+  --color-node: hsl(0, 0%, 13%);
+  --color-text: hsl(0, 0%, 100%);
+
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-text);
+  background-color: var(--color-background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,9 +26,11 @@
 body {
   margin: 0;
   display: flex;
+  /* justify-content: center; */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: 2rem;
 }
 
 h1 {
@@ -29,16 +39,16 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: left;
+  position: relative;
 }
 
 .nodes {
   display: flex;
   flex-direction: column;
   gap: 2em;
+  position: relative;
+  z-index: 1;
 }
 
 .node {
@@ -46,7 +56,7 @@ h1 {
   flex-wrap: nowrap;
   align-items: flex-start;
   gap: 6em;
-  color: #FFF;
+  color: var(--color-text);
   min-width: min-content;
 }
 
@@ -55,9 +65,12 @@ h1 {
   flex-direction: column;
   box-shadow: 2px 2px 2px rgba(7, 7, 7, 0.681);
   border-radius: 0.5em;
+  background-color: var(--color-node);
 }
 
-.node__title {
+.node__header {
+  display: flex;
+  justify-content: space-between;
   background-color: lightcoral;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
@@ -65,28 +78,59 @@ h1 {
   font-weight: bold;
 }
 
+.node__actions {
+  display: flex;
+  align-items: center;
+}
+
+.node__header button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding-inline-end: 0;
+  cursor: pointer;
+}
+
 .node__body {
-  /* flex: 1; */
-  background-color: rgba(0, 0, 0, 0.1);
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }
 
 .node__editor {
-  border: none;
   min-width: 180px;
-  background-color: transparent;
-  margin: 0;
-  font-size: 0.9em;
-  white-space: pre;
+  position: relative;
 }
 
-.node__editor:focus-visible {
+.node__editor pre {
+  visibility: hidden;
+  font-size: 0.9rem;
+  line-height: normal;
+  margin: 0;
+  padding: 1rem;
+}
+
+.node__editor textarea {
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  font-size: 0.9rem;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+  resize: none;
+  overflow: hidden;
+}
+
+.node__editor textarea:focus-visible {
   border: none;
   outline: none;
 }
 
-.node__editor,
 .node__preview {
   padding: 1em;
 }
@@ -103,7 +147,7 @@ h1 {
   line-height: 1.2;
 }
 
-.node__preview+.node__preview {
+.node__preview + .node__preview {
   padding-top: 0;
 }
 
@@ -124,4 +168,25 @@ svg {
   height: auto;
   position: relative;
   top: -1px;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cm-editor {
+  background-color: transparent;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-background: hsl(0, 0%, 86%);
+    --color-node: hsl(0, 0%, 90%);
+    --color-text: hsl(0, 0%, 0%);
+  }
 }
