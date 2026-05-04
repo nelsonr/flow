@@ -9,7 +9,9 @@
         "preview": "vite preview"
     },
     "devDependencies": {
-        "highlight.js": "^11.6.0",
         "vite": "^3.2.3"
+    },
+    "dependencies": {
+        "prismjs": "^1.29.0"
     }
 }

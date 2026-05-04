@@ -1,192 +1,209 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 :root {
-  --color-background: hsl(0, 0%, 14%);
-  --color-node: hsl(0, 0%, 13%);
-  --color-text: hsl(0, 0%, 100%);
+    --color-background: hsl(0, 0%, 14%);
+    --color-node: hsl(0, 0%, 13%);
+    --color-text: hsl(0, 0%, 100%);
 
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: var(--color-text);
-  background-color: var(--color-background);
+    color-scheme: light dark;
+    color: var(--color-text);
+    background-color: var(--color-background);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  /* justify-content: center; */
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  padding: 2rem;
+    margin: 0;
+    display: flex;
+    /* justify-content: center; */
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    padding: 2rem;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 3.2em;
+    line-height: 1.1;
 }
 
 #app {
-  text-align: left;
-  position: relative;
+    text-align: left;
+    position: relative;
 }
 
 .nodes {
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-  position: relative;
-  z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    position: relative;
+    z-index: 1;
 }
 
 .node {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  gap: 6em;
-  color: var(--color-text);
-  min-width: min-content;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 6em;
+    color: var(--color-text);
+    min-width: min-content;
 }
 
 .node__content {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 2px 2px rgba(7, 7, 7, 0.681);
-  border-radius: 0.5em;
-  background-color: var(--color-node);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 2px rgba(7, 7, 7, 0.681);
+    border-radius: 0.5em;
+    background-color: var(--color-node);
+    overflow: hidden;
+    max-width: 500px;
 }
 
 .node__header {
-  display: flex;
-  justify-content: space-between;
-  background-color: lightcoral;
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
-  padding: 0.2em 0.5em;
-  font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    background-color: lightcoral;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    padding: 0.2em 0.5em;
+    font-weight: bold;
 }
 
 .node__actions {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .node__header button {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  padding-inline-end: 0;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    padding-inline-end: 0;
+    cursor: pointer;
 }
 
 .node__body {
-  border-bottom-left-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
 }
 
 .node__editor {
-  min-width: 180px;
-  position: relative;
+    min-width: 180px;
+    max-height: 400px;
+    position: relative;
 }
 
 .node__editor pre {
-  visibility: hidden;
-  font-size: 0.9rem;
-  line-height: normal;
-  margin: 0;
-  padding: 1rem;
+    visibility: hidden;
+    font-size: 0.9rem;
+    line-height: normal;
+    margin: 0;
+    padding: 1rem;
 }
 
 .node__editor textarea {
-  border: none;
-  background-color: transparent;
-  margin: 0;
-  font-size: 0.9rem;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem;
-  resize: none;
-  overflow: hidden;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    font-size: 0.9rem;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    resize: none;
+    max-height: 400px;
+    overflow: auto;
 }
 
 .node__editor textarea:focus-visible {
-  border: none;
-  outline: none;
+    border: none;
+    outline: none;
 }
 
 .node__preview {
-  padding: 1em;
+    padding: 1em;
 }
 
 .node__body hr {
-  margin-top: 0;
-  margin-inline: 1em;
-  border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-inline: 1em;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .node__preview {
-  line-height: 1.2;
+    line-height: 1.2;
 }
 
 .node__preview + .node__preview {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 .node__title,
 .node__preview div {
-  font-size: 0.65em;
-  text-transform: uppercase;
+    font-size: 0.65em;
+    text-transform: uppercase;
 }
 
 .node__preview div {
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.6em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    text-shadow: -1px -1px 0 black;
+    margin-bottom: 1em;
+}
+
+.node__preview code {
+    display: block;
+    max-height: 400px;
+    overflow: auto;
+    word-break: break-all;
 }
 
 svg {
-  width: 16px;
-  height: auto;
-  position: relative;
-  top: -1px;
+    width: 16px;
+    height: auto;
+    position: relative;
+    top: -1px;
 }
 
 canvas {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  pointer-events: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .cm-editor {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    --color-background: hsl(0, 0%, 86%);
-    --color-node: hsl(0, 0%, 90%);
-    --color-text: hsl(0, 0%, 0%);
-  }
+    :root {
+        --color-background: hsl(0, 0%, 86%);
+        --color-node: hsl(0, 0%, 90%);
+        --color-text: hsl(0, 0%, 0%);
+    }
 }
